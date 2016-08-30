@@ -1,12 +1,18 @@
-*.class
+/pubring.gpg
+/secring.gpg
+/settings.xml
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+*.iml
 
-# Package Files #
-*.jar
-*.war
-*.ear
+.*
+_*
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+versioneye.properties
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
