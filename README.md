@@ -1,5 +1,9 @@
 # Living documentation Doclet
 
+[![DevOps By Rultor.com](http://www.rultor.com/b/myunusov/maxur-ldoc)](http://www.rultor.com/p/myunusov/maxur-ldoc)
+
+[![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
+
 ## Overview
 
 Doclet for the JavaDoc tool that generates Living documents from the code.
