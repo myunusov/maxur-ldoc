@@ -6,6 +6,30 @@ Doclet for the JavaDoc tool that generates Living documents from the code.
 
 This doclet uses the analyzed information from the JavaDoc tool. It automatically generates glossary and context map from your code as md and png files.
 
+### Sample BusinessDomain (Package)
+
+package-info.java
+
+```java
+@BusinessDomain(
+    name = "Authorization",
+    description = "for authorization of users to ensure they have the access control rights (permissions) required to do the actions performed"
+)
+@Link(related = "core")
+@Link(related = "common")
+package org.maxur.usrv.smpl.domain.auth;
+
+import org.maxur.ldoc.annotation.BusinessDomain;
+import org.maxur.ldoc.annotation.Link;
+```
+
+### Sample Concept (Class)
+
+```java
+@Concept(name = "User", description = "System's User")
+public class User {
+}
+```
 
 ## Links  
 
@@ -91,11 +115,13 @@ javadoc {
     options.doclet = "org.maxur.ldoc.LivingDocumentation"
     options.addStringOption "additionalParamName", "additionalParamValue"
 }
+```
+
 Replace additionalParamName and additionalParamValue with the name and value of each additional parameter you need.
 Note: The initial dash - of additional parameters will automatically be added by the Gradle javadoc task and should therefore be omitted from the configuration.
 
 The additional parameters for this doclet are described below.
-```
+
 
 
 ##Ant
