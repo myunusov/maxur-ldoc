@@ -4,13 +4,62 @@
 
 [![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/myunusov/maxur-ldoc/blob/master/LICENSE)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc)
+
 ## Overview
 
 Doclet for the JavaDoc tool that generates Living documents from the code.
 
 This doclet uses the analyzed information from the JavaDoc tool. It automatically generates glossary and context map from your code as md and png files.
 
-### Sample BusinessDomain (Package)
+## Links  
+
+* [Living Document (WiKi)](https://en.wikipedia.org/wiki/Living_document)
+* [Living Documentation by design, with Domain-Driven Design (eBook)](https://leanpub.com/livingdocumentation)
+
+## Documentation 
+
+### Living Glossary
+
+```
+Extract the glossary of the Ubiquitous Language from the source code. Consider
+the source code as the Single Source of Truth, and take great care of the naming of each class,
+interface and public method whenever they represent domain concepts. Add the description of
+the domain concept directly into the source code, as structured comments that can be extracted
+by a tool. When extracting the glossary, find a way to filter out code that is not expressing the
+domain.
+```
+
+### Living Context Map
+
+```
+Context Mapping is a general purpose technique, part of the Domain Driven Design (DDD) toolkit, 
+helps the architects and developers manage the many types of complexity they face in software development projects
+```
+
+## Highlighted Core
+
+```
+In the book Domain-Driven Design, Eric Evans explains that when a domain grows to a large
+number of elements, it becomes difficult to understand, even if only a small subset of them are
+really important. A simple way to guide developers focus on these particular subset is to highlight
+it in the code repository itself.
+
+Flag each element of the CORE DOMAIN within the primary repository of the model, without
+particularly trying to elucidate its role. Make it effortless for a developer to know what is in
+or out of the CORE.
+
+Using annotations to flag the core concepts directly into the code is a natural approach, one which
+evolves well over time. Code elements like classes or interfaces get renamed, move from one module
+to another, and sometime end up deleted.
+```
+
+### BusinessDomain (Package)
+
+The BusinessDomain annotation represents SubDomain and Bounded Context.
+
+This is a simple example of curation by annotations.
 
 package-info.java
 
@@ -27,7 +76,11 @@ import org.maxur.ldoc.annotation.BusinessDomain;
 import org.maxur.ldoc.annotation.Link;
 ```
 
-### Sample Concept (Class)
+### Concept (Class)
+
+The Concept annotation represents Business Domain Concepts.
+
+This is a simple example of curation by annotations.
 
 ```java
 @Concept(name = "User", description = "System's User")
@@ -35,18 +88,22 @@ public class User {
 }
 ```
 
-## Links  
-
-* [Living Document (WiKi)](https://en.wikipedia.org/wiki/Living_document)
-* [Living Documentation by design, with Domain-Driven Design (eBook)](https://leanpub.com/livingdocumentation)
-
-
  
 ## Maven 2
  
 To configure Maven to use Living documentation Doclet, you need to adjust your pom.xml file accordingly: 
  
 ```xml
+...
+<dependencies>
+    ...
+    <dependency>
+        <groupId>org.maxur</groupId>
+        <artifactId>maxur-ldoc</artifactId>
+        <version>0.2</version>
+    </dependency>
+    ...
+</dependencies>
 ...
 <build>
   <plugins>
@@ -62,7 +119,7 @@ To configure Maven to use Living documentation Doclet, you need to adjust your p
                     <docletArtifact>
                         <groupId>org.maxur</groupId>
                         <artifactId>maxur-ldoc</artifactId>
-                        <version>0.01</version>
+                        <version>0.2</version>
                     </docletArtifact>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
                     <additionalparam>
@@ -139,7 +196,7 @@ In ant, the javadoc task needs to be told to use the Living documentation Doclet
     </doclet>
 </javadoc>
 ```
-Make sure a path reference is defined for livingDocumentationDoclet.classpath pointing to lDocDoclet-{VERSION}.jar. It may be a good idea to use Ivy in this case.
+Make sure a path reference is defined for livingDocumentationDoclet.classpath pointing to maxur-ldoc-{VERSION}.jar. It may be a good idea to use Ivy in this case.
 Replace additionalParamName and additionalParamValue with the name and value of each additional parameter you need.
 
 The additional parameters for this doclet are described below.
@@ -147,8 +204,8 @@ The additional parameters for this doclet are described below.
 
 ##Commandline
 
-Probably not many people run JavaDoc regularly from the commandline, but in case you do, make sure to provide the options -doclet org.maxur.ldoc.LivingDocumentation and -docletpath {PATH_TO_JAR}, where {PATH_TO_JAR} is the location of the lDocDoclet-{VERSION}.jar.
-The latest version of the jar file can be found on *TBD*
+Probably not many people run JavaDoc regularly from the commandline, but in case you do, make sure to provide the options -doclet org.maxur.ldoc.LivingDocumentation and -docletpath {PATH_TO_JAR}, where {PATH_TO_JAR} is the location of the maxur-ldoc-{VERSION}.jar.
+The latest version of the jar file can be found on [Maven Central](http://repo1.maven.org/maven2/org/maxur/maxur-ldoc/0.2/maxur-ldoc-0.2.jar)
 
 For more details on commandline javadoc, please see the [official documentation from Oracle](http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/javadoc.html).
 
