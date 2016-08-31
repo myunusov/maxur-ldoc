@@ -43,6 +43,9 @@ class GlossaryWriter {
     }
 
     private static File basedir(final String pathname) {
+        if (pathname == null) {
+            return null;
+        }
         final File dir = new File(pathname);
         if (dir.exists() && dir.isDirectory() && dir.canRead()) {
             return dir;
