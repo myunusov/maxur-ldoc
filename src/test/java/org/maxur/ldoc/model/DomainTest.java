@@ -44,7 +44,10 @@ public class DomainTest {
 
         final JavadocTool javadocTool = JavadocTool.make0(context);
         final ListBuffer<String> javaNames = new ListBuffer<>();
-        javaNames.append(ConceptExample.class.getPackage().getName());
+        javaNames.append("org.maxur.ldoc.model.domain.subdomainA");
+        javaNames.append("org.maxur.ldoc.model.domain.subdomainA.subdir");
+        javaNames.append("org.maxur.ldoc.model.domain.subdomainB");
+        javaNames.append("org.maxur.ldoc.model.domain.subdomainC");
         final ListBuffer<String[]> options = new ListBuffer<>();
         final ListBuffer<String> packageNames = new ListBuffer<>();
         final ListBuffer<String> excludedPackages = new ListBuffer<>();

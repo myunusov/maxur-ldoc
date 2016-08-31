@@ -16,9 +16,9 @@
  * @since <pre>10.02.2016</pre>
  */
 @BusinessDomain(
-    name = "Domain",
-    description = "Domain description"
+    name = "SubDomainB",
+    description = "SubDomainB description"
 )
-package org.maxur.ldoc.model;
+package org.maxur.ldoc.model.domain.subdomainB;
 
 import org.maxur.ldoc.annotation.BusinessDomain;

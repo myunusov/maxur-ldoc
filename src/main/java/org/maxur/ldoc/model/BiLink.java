@@ -66,6 +66,9 @@ public class BiLink {
     }
 
     private String mergeLabel(final String label) {
+        if (label == null) {
+            return this.label;
+        }
         if (label.equals(this.label)) {
             return label;
         } else {

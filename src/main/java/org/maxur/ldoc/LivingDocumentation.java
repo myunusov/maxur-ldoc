@@ -52,8 +52,6 @@ public class LivingDocumentation {
      */
     public static int optionLength(final String option) {
         return Options.lengthFor(option);
-
-
     }
 
     /**
@@ -74,8 +72,6 @@ public class LivingDocumentation {
         return true;
     }
 
-
-
     private void createDocumentations(final Domain domain) {
         if (options.isGlossary()) {
             GlossaryWriter.make(options.baseDir()).writeBy(domain);
@@ -84,8 +80,5 @@ public class LivingDocumentation {
             ContextMapDrawer.make().drawBy(domain);
         }
     }
-
-
-
 
 }
