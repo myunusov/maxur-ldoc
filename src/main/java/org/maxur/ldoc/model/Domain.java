@@ -23,7 +23,7 @@ public class Domain {
 
     @Getter
     @NotNull
-    private final Collection<SubDomain> domains;
+    private final Collection<SubDomain> subDomains;
 
     @Getter
     @NotNull
@@ -35,17 +35,28 @@ public class Domain {
      * @param root the root
      */
     public Domain(final RootDoc root) {
-        domains = collectDomainModels(root);
-        links = collectLinks(domains);
+        subDomains = collectDomainModels(root);
+        links = collectLinks(subDomains);
     }
 
     @NotNull
     private Set<SubDomain> collectDomainModels(final RootDoc root) {
-        return Arrays.stream(root.specifiedPackages())
+        final Set<SubDomain> result = Arrays.stream(root.specifiedPackages())
             .map(SubDomain::makeBy)
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.toSet());
+
+
+        result.forEach(
+            sd -> {
+                Arrays.stream(root.specifiedPackages()).forEach(
+                    sd::add
+                );
+            }
+        );
+
+        return result;
     }
 
     @NotNull

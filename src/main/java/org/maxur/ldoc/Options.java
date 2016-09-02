@@ -2,11 +2,15 @@ package org.maxur.ldoc;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 class Options {
@@ -34,7 +38,6 @@ class Options {
         Arrays.stream(options)
             .filter(option -> option.length == 1)
             .forEach(option -> optionsMap.put(option[0].toLowerCase(), null));
-
     }
 
     private String valueOf(String[] option) {
@@ -56,6 +59,39 @@ class Options {
             default:
                 throw new IllegalStateException(format("Illegal option (%s) of LivingDocumentation doclet", option));
         }
+    }
+
+    static void validate(String[][] options) {
+        final Set<String> strings = Arrays.stream(options)
+            .map(o -> o[0].toLowerCase())
+            .collect(toSet());
+
+        if (strings.contains(ALL)) {
+            if (strings.contains(CONTEXT_MAP)) {
+                throw new IllegalStateException("Invalid options of LivingDocumentation doclet. " +
+                    "Must be or -all or -contextMap but not both");
+            }
+            if (strings.contains(GLOSSARY)) {
+                throw new IllegalStateException("Invalid options of LivingDocumentation doclet. " +
+                    "Must be or -all or -glossary but not both");
+            }
+        }
+
+        if (strings.contains(BASEDIR)) {
+            final String basePath = Arrays.stream(options)
+                .filter(o -> Objects.equals(BASEDIR, o[0].toLowerCase()))
+                .findFirst()
+                .map(o -> o[1]).orElseThrow(
+                    () -> new IllegalStateException("Option -basedir is invalid. Path not found")
+                );
+
+            final File dir = new File(basePath);
+            if (!dir.exists() || !dir.isDirectory() || !dir.canRead()) {
+                throw new IllegalStateException(
+                    format("Directory '%s' is not found or is not accessible", dir.getAbsolutePath())
+                );
+            }
+        }
 
 
     }
@@ -71,4 +107,6 @@ class Options {
     boolean isContextMap() {
         return optionsMap.containsKey(ALL) || optionsMap.containsKey(CONTEXT_MAP);
     }
+
+
 }
