@@ -13,9 +13,9 @@ jdk:
 before_install:
  - chmod +x ./mvnw
 install:
- - mvn clean install -Denv=dev
+ - mvn clean
 script:
- - mvn test -Denv=dev
+ - mvn test -Denv=dev -Pdep-jacoco
 after_success:
  - mvn -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID coveralls:report -Pci -Denv=dev
 
