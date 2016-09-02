@@ -13,11 +13,11 @@ merge:
 deploy:
   script: |
     mvn clean install
-    mvn site com.github.github:site-maven-plugin:site --settings /home/r/settings.xml -Denv=prod -Psite,debug,gh-pages
+    mvn site com.github.github:site-maven-plugin:site --settings /home/r/settings.xml -Denv=prod -Psite,debug,gh-pages,-announcement
 
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}" -Denv=prod
     git commit -am "${tag}"
-    mvn site com.github.github:site-maven-plugin:site --settings /home/r/settings.xml -Denv=prod -Psite,debug,gh-pages
+    mvn site com.github.github:site-maven-plugin:site --settings /home/r/settings.xml -Denv=prod -Psite,debug,gh-pages,-announcement
     mvn clean deploy --settings /home/r/settings.xml -Denv=prod -Pmaxur,sonatype,debug,-announcement
