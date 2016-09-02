@@ -47,6 +47,14 @@
         <pegdown-doclet.version>1.3</pegdown-doclet.version>
     </properties>
 
+    <distributionManagement>
+        <site>
+            <id>${github.global.server}</id>
+            <name>Deployment through GitHub's site deployment plugin</name>
+            <url>git:ssh://git@github.com/myunusov/maxur-ldoc.git?gh-pages#</url>
+        </site>
+    </distributionManagement>
+
     <profiles>
         <profile>
             <id>windows-profile</id>
