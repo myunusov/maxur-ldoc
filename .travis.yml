@@ -12,12 +12,10 @@ jdk:
 
 before_install:
  - chmod +x ./mvnw
-install:
- - mvn clean
 script:
- - mvn test -Denv=dev -Pdep-jacoco
+  - mvn clean verify -Denv=dev -Pdebug,dep-jacoco
 after_success:
- - mvn -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID coveralls:report -Pci -Denv=dev
+  - mvn -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID coveralls:report
 
 notifications:
   slack: maxur:bIyYFLYJ0n1toR66dIr5OSbD
