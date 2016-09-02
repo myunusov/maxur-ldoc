@@ -7,6 +7,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/myunusov/maxur-ldoc/blob/master/LICENSE)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc)
 
+[![Build Status](https://travis-ci.org/myunusov/maxur-ldoc.svg?branch=master)](https://travis-ci.org/myunusov/maxur-ldoc)
+
 ## Overview
 
 Doclet for the JavaDoc tool that generates Living documents from the code.
