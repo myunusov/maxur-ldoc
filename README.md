@@ -8,6 +8,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.maxur/maxur-ldoc)
 
 [![Build Status](https://travis-ci.org/myunusov/maxur-ldoc.svg?branch=master)](https://travis-ci.org/myunusov/maxur-ldoc)
+[![Coverage Status](https://coveralls.io/repos/github/myunusov/maxur-ldoc/badge.svg?branch=master)](https://coveralls.io/github/myunusov/maxur-ldoc?branch=master)
 
 ## Overview
 

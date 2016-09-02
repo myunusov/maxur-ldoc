@@ -8,11 +8,16 @@ env:
     - MAVEN_OPTS="-Xmx4g"
     - JAVA_OPTS="-Xmx4g"
 jdk:
-  - oraclejdk8
+ - oraclejdk8
 
 before_install:
  - chmod +x ./mvnw
+install:
+ - mvn clean install -Denv=dev
 script:
-  - mvn clean verify -Denv=dev -Pdebug
+ - mvn test -Denv=dev
+after_success:
+ - mvn -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID coveralls:report -Pci -Denv=dev
+
 notifications:
   slack: maxur:bIyYFLYJ0n1toR66dIr5OSbD
