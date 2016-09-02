@@ -145,7 +145,7 @@ To configure Maven to use Living documentation Doclet, you need to adjust your p
 ```
 
 
-Any Living documentation Doclet specific options go into the <additionalparam> argument. 
+Any Living documentation Doclet specific options go into the *additionalparam* argument. 
 
 ```xml
 ...
@@ -225,7 +225,9 @@ For more details on commandline javadoc, please see the [official documentation 
 ##Template
 
 ###Glossary Template (Example)
+
 glossary.hbs
+
 ```text
 #Glossary
 

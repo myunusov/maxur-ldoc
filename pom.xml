@@ -44,6 +44,7 @@
 
         <build-helper-maven-plugin.version>1.12</build-helper-maven-plugin.version>
         <coveralls-maven-plugin.version>4.2.0</coveralls-maven-plugin.version>
+        <pegdown-doclet.version>1.3</pegdown-doclet.version>
     </properties>
 
     <profiles>
@@ -197,5 +198,69 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <!--
+                API documentation builder. It will produce documentation
+                which is then to be used in site:site. It will be
+                located at target/site/apidocs.
+                -->
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <doclet>ch.raffael.doclets.pegdown.PegdownDoclet</doclet>
+                    <docletArtifact>
+                        <groupId>ch.raffael.pegdown-doclet</groupId>
+                        <artifactId>pegdown-doclet</artifactId>
+                        <version>${pegdown-doclet.version}</version>
+                    </docletArtifact>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+
+                    <failOnError>true</failOnError>
+                    <detectLinks>true</detectLinks>
+                    <tags>
+                        <!--
+                        Here we instruct plugin to use custom tag
+                        @link http://maven.apache.org/plugins/maven-javadoc-plugin/examples/tag-configuration.html
+                        -->
+                        <tag>
+                            <name>todo</name>
+                            <placement>a</placement>
+                            <head>To do:</head>
+                        </tag>
+                        <tag>
+                            <name>checkstyle</name>
+                            <placement>a</placement>
+                            <head>Suppressed Checkstyle violations:</head>
+                        </tag>
+                    </tags>
+
+                    <source>${project.source.compile}</source>
+                    <encoding>${project.source.encoding}</encoding>
+                    <charset>${project.source.encoding}</charset>
+                    <docencoding>${project.source.encoding}</docencoding>
+                    <breakiterator>true</breakiterator>
+                    <version>true</version>
+                    <author>true</author>
+                    <keywords>true</keywords>
+
+                    <detectLinks>false</detectLinks>
+                    <linksource>true</linksource>
+                    <excludePackageNames>*.it,*.test</excludePackageNames>
+                    <aggregate>true</aggregate>
+
+                    <additionalparam>
+                        -quiet
+                        -version
+                        -author
+                    </additionalparam>
+
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </reporting>
 
 </project>
