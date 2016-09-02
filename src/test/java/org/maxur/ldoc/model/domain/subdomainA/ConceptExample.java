@@ -7,6 +7,6 @@ import org.maxur.ldoc.annotation.Concept;
  * @version 1.0
  * @since <pre>8/31/2016</pre>
  */
-@Concept(name = "Concept", description = "Concept description")
+@Concept(name = "ConceptA", description = "ConceptA description")
 public class ConceptExample {
 }

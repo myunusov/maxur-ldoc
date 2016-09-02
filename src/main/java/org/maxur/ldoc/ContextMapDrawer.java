@@ -14,22 +14,30 @@ import java.util.stream.Collectors;
 @Slf4j
 class ContextMapDrawer {
 
-    private ContextMapDrawer() {
+    private GraphViz graphViz;
+
+    private final boolean isSkipped;
+
+    ContextMapDrawer(final GraphViz graphViz, boolean isSkipped) {
+        this.graphViz = graphViz;
+        this.isSkipped = isSkipped;
     }
 
-    static ContextMapDrawer make() {
-        return new ContextMapDrawer();
+    static ContextMapDrawer make(final Options options) {
+        boolean isSkipped = !options.isContextMap();
+        return new ContextMapDrawer(new GraphViz(), isSkipped);
     }
 
     void drawBy(final Domain domains) {
+        if (isSkipped) {
+            return;
+        }
 
-        final GraphViz graphViz = new GraphViz();
         graphViz.setImageDpi(GraphViz.DpiSizes.DPI_249);
-
 
         graphViz.startGraph("ContextMap");
 
-        for (SubDomain domain : domains.getDomains()) {
+        for (SubDomain domain : domains.getSubDomains()) {
             graphViz.node(domain.getId(), domain.getTitle());
         }
 

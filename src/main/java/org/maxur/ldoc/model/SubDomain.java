@@ -85,12 +85,18 @@ public class SubDomain {
             .collect(Collectors.toList())
         );
 
+        this.concepts = new ArrayList<>();
 
-        this.concepts = Arrays.stream(doc.allClasses())
-            .map(ConceptModel::makeBy)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(Collectors.toList());
+    }
+
+    void add(PackageDoc doc) {
+        if (doc.name().startsWith(codeName)) {
+            Arrays.stream(doc.allClasses())
+                .map(ConceptModel::makeBy)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(concepts::add);
+        }
     }
 
     /**

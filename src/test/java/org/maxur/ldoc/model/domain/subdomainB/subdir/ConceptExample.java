@@ -1,4 +1,4 @@
-package org.maxur.ldoc.model.domain.subdomainA.subdir;
+package org.maxur.ldoc.model.domain.subdomainB.subdir;
 
 import org.maxur.ldoc.annotation.Concept;
 
@@ -7,6 +7,6 @@ import org.maxur.ldoc.annotation.Concept;
  * @version 1.0
  * @since <pre>8/31/2016</pre>
  */
-@Concept(name = "Other Concept", description = "Other Concept description")
+@Concept(name = "ConceptB", description = "ConceptB description")
 public class ConceptExample {
 }

@@ -25,22 +25,30 @@ import org.maxur.ldoc.model.Domain;
 @Slf4j
 public class LivingDocumentation {
 
-    private static LivingDocumentation instance;
+    private final ContextMapDrawer contextMapDrawer;
 
-    private final Options options;
+    private final GlossaryWriter glossaryWriter;
 
-    private LivingDocumentation(final Options options) {
-        this.options = options;
+    public LivingDocumentation(
+        final ContextMapDrawer contextMapDrawer,
+        final GlossaryWriter glossaryWriter
+    ) {
+        this.contextMapDrawer = contextMapDrawer;
+        this.glossaryWriter = glossaryWriter;
     }
 
     /**
-     * Start boolean.
+     * Start Doclet.
      *
      * @param root the root
      * @return the boolean
      */
     public static boolean start(final RootDoc root) {
-        instance.createDocumentations(new Domain(root));
+        final Options options = new Options(root.options());
+        new LivingDocumentation(
+            ContextMapDrawer.make(options),
+            GlossaryWriter.make(options)
+        ).createDocumentations(root);
         return true;
     }
 
@@ -61,9 +69,9 @@ public class LivingDocumentation {
      * @param reporter the reporter
      * @return the boolean
      */
-    public static boolean validOptions(final String[][] options, final DocErrorReporter reporter){
+    public static boolean validOptions(final String[][] options, final DocErrorReporter reporter) {
         try {
-            instance = new LivingDocumentation(new Options(options));
+            Options.validate(options);
         } catch (IllegalStateException e) {
             log.debug(e.getMessage(), e);
             reporter.printError(e.getMessage());
@@ -72,13 +80,10 @@ public class LivingDocumentation {
         return true;
     }
 
-    private void createDocumentations(final Domain domain) {
-        if (options.isGlossary()) {
-            GlossaryWriter.make(options.baseDir()).writeBy(domain);
-        }
-        if (options.isContextMap()) {
-            ContextMapDrawer.make().drawBy(domain);
-        }
+    public void createDocumentations(final RootDoc root) {
+        final Domain domain = new Domain(root);
+        glossaryWriter.writeBy(domain);
+        contextMapDrawer.drawBy(domain);
     }
 
 }

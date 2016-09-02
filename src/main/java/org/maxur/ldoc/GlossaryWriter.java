@@ -10,8 +10,6 @@ import org.maxur.ldoc.model.SubDomain;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,20 +18,71 @@ import static java.lang.String.format;
 @Slf4j
 class GlossaryWriter {
 
-    private static final Charset CHARSET = Charset.forName("UTF-8");
-
     private static final String GLOSSARY_NAME_TEMPLATE = "%s-glossary.md";
+
+    private final TextWriter textWriter;
+
+    private final boolean isSkipped;
 
     private final Template template;
 
-    private GlossaryWriter(final Template template) {
-        this.template = template;
-
+    GlossaryWriter(final TextWriter textWriter, final boolean isSkipped, final String baseDir) {
+        this.textWriter = textWriter;
+        this.isSkipped = isSkipped;
+        template = isSkipped ? null : findTemplate(baseDir);
     }
 
-    static GlossaryWriter make(final String basedirPath) {
+    static GlossaryWriter make(final Options options) {
+        boolean isSkipped = !options.isGlossary();
+        String baseDir = options.baseDir();
+        return new GlossaryWriter(new TextWriter(), isSkipped, baseDir);
+    }
+
+    /**
+     * Write glossary.
+     */
+    void writeBy(final Domain domain) {
+        if (isSkipped) {
+            return;
+        }
+        domain.getSubDomains().forEach(
+            subDomain -> writeGlossary(template, subDomain)
+        );
+    }
+
+    private void writeGlossary(final Template template, final SubDomain domain) {
+        final String glossary = createGlossary(template, domain);
+        writeGlossary(domain, glossary);
+    }
+
+    private void writeGlossary(SubDomain domain, String glossary) {
+        final Path path = Paths.get(String.format(GLOSSARY_NAME_TEMPLATE, domain.getName()));
         try {
-            return new GlossaryWriter(handlebars(basedir(basedirPath)).compile("glossary"));
+            textWriter.write(path, glossary);
+        } catch (IOException e) {
+            log.debug(e.getMessage(), e);
+            throw new IllegalStateException(
+                format("Glossary cannot be write to file '%s'", path)
+            );
+        }
+    }
+
+    private String createGlossary(final Template template, final SubDomain domain) {
+        final String glossary;
+        try {
+            glossary = template.apply(domain);
+        } catch (IOException e) {
+            log.debug(e.getMessage(), e);
+            throw new IllegalStateException(
+                format("Glossary Template is not applicable: %s", e.getMessage())
+            );
+        }
+        return glossary;
+    }
+
+    private Template findTemplate(String basedirPath) {
+        try {
+            return handlebars(basedir(basedirPath)).compile("glossary");
         } catch (IOException e) {
             throw new IllegalStateException(
                 format("Glossary Template is not found or is not accessible: %s", e.getMessage()),
@@ -63,19 +112,6 @@ class GlossaryWriter {
             new Handlebars(new FileTemplateLoader(basedir.getAbsolutePath()));
     }
 
-    /**
-     * Write glossary.
-     */
-    void writeBy(final Domain domains) {
-        for (SubDomain domain : domains.getDomains()) {
-            try {
-                final Path file = Paths.get(String.format(GLOSSARY_NAME_TEMPLATE, domain.getName()));
-                byte[] bytes = template.apply(domain).getBytes(CHARSET);
-                Files.write(file, bytes);
-            } catch (IOException e) {
-                log.debug(e.getMessage(), e);
-            }
-        }
-    }
+
 
 }
